@@ -1,63 +1,75 @@
+import {Card, CardContent} from "@/components/ui/card";
+import {Link} from "react-router";
 import {ChevronLeft} from "lucide-react";
 import type {TourCard} from "./types";
-import TourCardBadge from "./TourCardBadge";
 
-type TourCardProps = {
+interface Props {
   tour: TourCard;
-  onClick?: () => void;
-};
-export default function TourCard({tour, onClick}: TourCardProps) {
+}
+
+export default function TourCardItem({tour}: Props) {
   return (
-    <div
-      className="relative w-full h-full overflow-hidden rounded-[28px] cursor-pointer group shadow-lg flex flex-col justify-between aspect-4/5"
-      onClick={onClick}
-    >
-      
-      {/* Image */}
-      <div className="absolute inset-0">
-        <img
-          src={tour.image}
-          alt={tour.title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/45 to-transparent" />
-      </div>
+    <Card className="group relative h-[420px] overflow-hidden rounded-2xl border-none">
+      {/* Background image */}
+      <img
+        src={tour.image}
+        alt={tour.title}
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+      />
 
       {/* Date badge */}
-      <TourCardBadge dateRange={tour.dateRange} />
-      
+      <div className="absolute right-3 top-3 z-20 rounded-[15px] bg-[#c7c7c7] px-2 py-1 text-[10px] backdrop-blur flex gap-1 items-center">
+        <img src="/calendar-2.svg" alt="Calendar" className="w-4 h-4" />
+        {tour.dateRange}
+      </div>
 
-      {/* Content */}
-      <div className=" z-10 p-4 text-white flex flex-col gap-3">
-        {/* Pills row (title + price) */}
-        <div className="flex items-end justify-between gap-3">
-          {/* Title pill (right side in RTL) */}
-          
+      {/* Gradient fade */}
+      <div className="absolute inset-x-0 bottom-0 h-44 bg-linear-to-t from-black/80 to-transparent" />
 
-          {/* Price pill */}
-          <div className="rounded-full bg-black/55 backdrop-blur-sm px-4 py-2">
-            <div className="flex flex-col leading-none">
-              <span className="text-[10px] text-white/75 mb-1">تومان</span>
-              <span className="text-lg font-bold tracking-tight">
-                {new Intl.NumberFormat("fa-IR").format(tour.price)}
+      {/* Black curved content */}
+      <div
+        className="
+          absolute inset-x-0 bottom-0 z-10
+          rounded-t-[32px]
+          overflow-hidden
+        "
+      >
+        {/* Text content overlay */}
+        <CardContent className="px-0 card-layout-bg relative z-10 rounded-lg">
+          {/* Title and Price */}
+          <div className=" flex items-end-safe justify-between gap-3">
+            {/* Title */}
+            <h3 className="text-right text-[14px] font-semibold text-white flex-1 mb-1 ">
+              {tour.title}
+            </h3>
+
+            {/* Price */}
+            <div className="text-right text-sm text-gray-300 -mt-1 flex flex-col">
+              تومان{" "}
+              <span className="text-base font-bold text-white">
+                {tour.price.toLocaleString("fa-IR")}
               </span>
             </div>
           </div>
-        </div>
 
-        {/* Description */}
-        <p className="text-xs text-white/80 leading-relaxed line-clamp-2">
-          {tour.description}
-        </p>
+          {/* Description and Button */}
+          <div className="flex items-center justify-between gap-3 mt-2">
+            {/* Description */}
+            <p className="line-clamp-2 text-right text-[10px] text-gray-300 flex-1">
+              {tour.description}
+            </p>
 
-        {/* CTA */}
-        <div className="flex items-center justify-start">
-          <button className="inline-flex items-center gap-2 rounded-full bg-black/55 backdrop-blur-sm px-4 py-2 text-xs font-medium transition-all hover:bg-black/65 group/btn">
-            <ChevronLeft className="size-4 transition-transform group-hover/btn:-translate-x-0.5" />
-            <span>مشاهده</span>
-          </button>
-        </div>
+            {/* Link */}
+            <Link
+              to={tour.href || "#"}
+              className="flex items-center justify-center gap-1 text-white hover:text-gray-300 transition-colors shrink-0 text-[10px]"
+            >
+              مشاهده
+              <ChevronLeft className="size-4 shrink-0" />
+            </Link>
+          </div>
+        </CardContent>
       </div>
-    </div>
+    </Card>
   );
 }

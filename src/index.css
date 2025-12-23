@@ -142,4 +142,12 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
   }
+
+  /* Card layout background */
+  .card-layout-bg {
+    background-image: url("/card-layout.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 }
